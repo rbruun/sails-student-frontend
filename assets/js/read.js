@@ -41,10 +41,10 @@
         dom: 'Bfrtlip',
            
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            'copy',
+            'excel',
+            'csv',
+            'pdf',
             'print'
         ]
 

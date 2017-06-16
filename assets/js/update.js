@@ -48,26 +48,26 @@
         $("#updateStudentForm :input").prop("disabled", true);
 
 
-        $("#studentId").change(function () {           
-            $("#updateStudentForm :input").prop("disabled", false);
-            // doing this for now, if there is no major_id, then this input is not reset
-            $('[name="major_id"]').val("");
+        $("#studentId").change(function () {    
+            // check if first blank option was selected before proceeding
+            if ($("#studentId").prop("selectedIndex") > 0) {               
+                $("#updateStudentForm :input").prop("disabled", false);
+                // doing this for now, if there is no major_id, then this input is not reset
+                $('[name="major_id"]').val("");
 
-            $.get("http://localhost:1337/student/" + $(this).val(), function (data) {
-                // reset form values from json object
-                $.each(data, function (name, val) {
-                    var $el = $('[name="' + name + '"]');
-                    var type = $el.attr('type');
-                    if (name == "major_id"){
-                        //$el.val(val.major_id);
-                        $('#major_id option[value=' + val.major_id   +']').attr('selected',true);
-                        $el.selectmenu().selectmenu("refresh",true);
-                        //$el.val(val.major_id).attr('selected', true);
-                    } else {
-                    $el.val(val);
-                    }
+                $.get("http://localhost:1337/student/" + $(this).val(), function (data) {
+                    // reset form values from json object
+                    $.each(data, function (name, val) {
+                        var $el = $('[name="' + name + '"]');
+                        var type = $el.attr('type');
+                        if (name == "major_id"){
+                            $el.val(val.major_id).change();
+                        } else {
+                        $el.val(val);
+                        }
+                    });
                 });
-            });
+            };
         });
 
         //code goes here

@@ -92,12 +92,19 @@ module.exports = {
 
         if (req.method != "POST") {
 
-            let majors;
+        let majors;
+        // create a promise so the page doesn't try to load before the majors are returned
+        let p1 = new Promise(
+            (resolve, reject) => {
+                client.get("http://localhost:1337/major", function (data, response) {
+                    majors = data;
+                });
+            }
+        )
 
-            let mresponse = client.get("http://localhost:1337/major", function (data, response) {
-                majors = data;
-                
-                // embedding this in the above call for now,  this should be in a promise of the above call
+        // don't try to get the student data until know the majors data has come back
+        p1.then(
+
                 client.get(endpoint, function (data, response) {                  
                     data.sort(SortByName);
                     return res.view('update', {
@@ -110,8 +117,8 @@ module.exports = {
                             message: "There was an error getting the students"
                         }
                     });
-                });
-            });
+                })
+            );
 
 
         } else {

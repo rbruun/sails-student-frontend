@@ -10,6 +10,7 @@
   <div class="form-group">
     <label for="studentId">SELECT AN STUDENT TO UPDATE</label><br/>
       <select id="studentId" name="studentId" class="selectpicker" data-live-search="true" data-show-icon="true" data-dropup-auto="false" data-header="Select a student to update">
+        <option>Select a student</option>
       <% if(typeof students != "undefined" && students.length > 0){ %>
         <% students.forEach(function(student){ %>
           <option value="<%= student.student_id %>" data-icon="glyphicon glyphicon-user">
