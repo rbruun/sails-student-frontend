@@ -24,12 +24,39 @@
  *
  */
 
-(function(){
+(function () {
 
-  $(function(){
+    $(function () {
 
-  	//code goes here
+        //code goes here
+        $("#addStudentForm").validate({
+            errorClass: "text-danger bg-danger",
+            rules: {
+                last_name: {
+                    required: true,
+                    minlength: 2
+                },
+                first_name: {
+                    required: true,
+                    minlength: 2
+                },
+                start_date: {
+                    dateISO: true
+                }, 
+                sat: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                first_name: "Enter at least 2 characters for First Name",
+                last_name: "Enter at least 2 characters for Last Name",
+                start_date: "Enter a date in YYYY-MM-DD formate",
+                sat: "Enter a numeric value for SAT score"
+            }
 
-  })
+        });
+
+    })
 
 })();

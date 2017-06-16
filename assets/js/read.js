@@ -35,7 +35,21 @@
    $(function(){
 
    	//code goes here
+       $('#studentTable').DataTable({
+        colReorder: true,
+        "scrollX": true,
+        dom: 'Bfrtlip',
+           
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5',
+            'print'
+        ]
 
+    });
+       
    })
 
  })();

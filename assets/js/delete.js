@@ -27,12 +27,16 @@
  *
  */
 
- (function(){
+(function () {
 
-   $(function(){
+    $(function () {
 
-   	//code goes here
+        //code goes here
 
-   })
+        // popup confirmation before deleting
+        $('#delForm').submit(function () {
+            return confirm("Are you sure you want to delete the user?");
+        });
+    })
 
- })();
+})();

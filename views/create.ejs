@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="start_date" class="col-sm-2 control-label">Email Address</label>
+    <label for="start_date" class="col-sm-2 control-label">Start Date</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="start_date" name="start_date" placeholder="2017-01-01" required>
     </div>
@@ -41,12 +41,22 @@
   <div class="form-group">
     <label for="major_id" class="col-sm-2 control-label">Major ID</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="major_id" name="major_id">
+        <select>Select a major</select>
+<!--      <input type="text" class="form-control" id="major_id" name="major_id">-->
+    <select id="major_id" name="major_id" class="selectpicker">
+    <% if(typeof majors != "undefined" && majors.length > 0){ %>
+      <% majors.forEach(function(major){ %>
+        <option value="<%= major.major_id %>">
+          <%= major.major %>
+        </option>
+      <% }) %>
+    <% } %>
+    </select>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="btn btn-default">Add Student</button>
     </div>
-  </div>
+  </div>    
 </form>

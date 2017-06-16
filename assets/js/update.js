@@ -40,12 +40,65 @@
  *
  */
 
- (function(){
+(function () {
 
-   $(function(){
+    $(function () {
 
-    //code goes here
+        // set all of the form fields to disabled
+        $("#updateStudentForm :input").prop("disabled", true);
 
-   })
 
- })();
+        $("#studentId").change(function () {           
+            $("#updateStudentForm :input").prop("disabled", false);
+            // doing this for now, if there is no major_id, then this input is not reset
+            $('[name="major_id"]').val("");
+
+            $.get("http://localhost:1337/student/" + $(this).val(), function (data) {
+                // reset form values from json object
+                $.each(data, function (name, val) {
+                    var $el = $('[name="' + name + '"]');
+                    var type = $el.attr('type');
+                    if (name == "major_id"){
+                        //$el.val(val.major_id);
+                        $('#major_id option[value=' + val.major_id   +']').attr('selected',true);
+                        $el.selectmenu().selectmenu("refresh",true);
+                        //$el.val(val.major_id).attr('selected', true);
+                    } else {
+                    $el.val(val);
+                    }
+                });
+            });
+        });
+
+        //code goes here
+        $("#updateStudentForm").validate({
+            errorClass: "text-danger bg-danger",
+            rules: {
+                last_name: {
+                    required: true,
+                    minlength: 2
+                },
+                first_name: {
+                    required: true,
+                    minlength: 2
+                },
+                start_date: {
+                    dateISO: true
+                },
+                sat: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                first_name: "Enter at least 3 characters for First Name",
+                last_name: "Enter at least 2 characters for Last Name",
+                start_date: "Enter a date in YYYY-MM-DD formate",
+                sat: "Enter a numeric value for SAT score"
+            }
+
+        });
+
+    })
+
+})();
