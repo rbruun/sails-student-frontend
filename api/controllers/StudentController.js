@@ -29,7 +29,7 @@ module.exports = {
     create: function (req, res) {
 
         if (req.method != "POST") {
-            //            return res.view('create');
+            //if blank page is being displayed, then get data to populate the 'Majors' dropdown value
             client.get("http://localhost:1337/major", function (data, response) {
                 return res.view('create', {
                     majors: data
@@ -55,7 +55,6 @@ module.exports = {
                     return res.redirect('/create');
                     //return res.view('create');
                 } else {
-
                     req.addFlash("success", "Record created successfully");
                     return res.redirect('/create');
 
@@ -94,6 +93,7 @@ module.exports = {
 
         let majors;
         // create a promise so the page doesn't try to load before the majors are returned
+        // the data returned by this call will be used to populate the 'Majors' drop down list
         let p1 = new Promise(
             (resolve, reject) => {
                 client.get("http://localhost:1337/major", function (data, response) {
@@ -103,9 +103,11 @@ module.exports = {
         )
 
         // don't try to get the student data until know the majors data has come back
+        // which is when the majors data promise has been resolved
         p1.then(
 
-                client.get(endpoint, function (data, response) {                  
+                client.get(endpoint, function (data, response) { 
+                    // sort the students returned so they are in order in dropdown on page                 
                     data.sort(SortByName);
                     return res.view('update', {
                         students: data,
@@ -164,6 +166,7 @@ module.exports = {
         if (req.method != "POST") {
 
             client.get(endpoint, function (data, response) {
+                // sort the students returned so they are in order in dropdown on page 
                 data.sort(SortByName);
                 return res.view('delete', {
                     students: data
